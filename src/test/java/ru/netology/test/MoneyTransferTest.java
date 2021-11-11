@@ -4,15 +4,15 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
-import ru.netology.page.BalancePage;
+import ru.netology.page.DashboardPage;
 import ru.netology.page.LoginPage;
-import ru.netology.page.TransferPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MoneyTransferTest {
-    private int amount = 500;
+
+public class MoneyTransferTest {
+    int amountTransfer = 500;
 
     @BeforeEach
     void setUp() {
@@ -24,19 +24,19 @@ class MoneyTransferTest {
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
-        val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        val transferPage = verificationPage.validVerify(verificationCode);
-        int balanceStartFirstCard = TransferPage.getCurrentBalanceFirstCard();
-        int balanceStartSecondCard = TransferPage.getCurrentBalanceSecondCard();
-        val balancePage = transferPage.transferFromFirstCard();
-        val dataCard = DataHelper.getDataSecondCard();
+        val verificationCode = DataHelper.getVerificationCode(authInfo);
+        val dashboardPage = verificationPage.verify(verificationCode);
+        int balanceStartFirstCard = DashboardPage.getCurrentBalanceFirstCard();
+        int balanceStartSecondCard = DashboardPage.getCurrentBalanceSecondCard();
+        val balancePage = dashboardPage.transferFromFirstCard();
+        val dataCard = DataHelper.getSecondCardData();
         balancePage.balanceCard(dataCard);
-        int balanceCardAfterTransfer = DataHelper.balanceSecondCard(balanceStartFirstCard, amount);
-        int balanceCardAfterDebit = DataHelper.balanceFirstCard(balanceStartSecondCard, amount);
-        int balanceFinishFirstCard = TransferPage.getCurrentBalanceFirstCard();
-        int balanceFinishSecondCard = TransferPage.getCurrentBalanceSecondCard();
-        assertEquals(balanceCardAfterTransfer, balanceFinishFirstCard );
-        assertEquals(balanceCardAfterDebit, balanceFinishSecondCard );
+        int balanceCard1AfterTransfer = DataHelper.balanceSecondCard(balanceStartFirstCard, amountTransfer);
+        int balanceCard2AfterTransfer = DataHelper.balanceFirstCard(balanceStartSecondCard, amountTransfer);
+        int balanceFinishFirstCard = DashboardPage.getCurrentBalanceFirstCard();
+        int balanceFinishSecondCard = DashboardPage.getCurrentBalanceSecondCard();
+        assertEquals(balanceCard1AfterTransfer, balanceFinishFirstCard);
+        assertEquals(balanceCard2AfterTransfer, balanceFinishSecondCard);
     }
 
     @Test
@@ -44,18 +44,18 @@ class MoneyTransferTest {
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
-        val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        val dashboardPage = verificationPage.validVerify(verificationCode);
-        int balanceStartFirstCard = TransferPage.getCurrentBalanceFirstCard();
-        int balanceStartSecondCard = TransferPage.getCurrentBalanceSecondCard();
-        val balancePage = transferPage.transferFromSecondCard();
-        val dataCard = DataHelper.getDataFirstCard();
+        val verificationCode = DataHelper.getVerificationCode(authInfo);
+        val dashboardPage = verificationPage.verify(verificationCode);
+        int balanceStartFirstCard = DashboardPage.getCurrentBalanceFirstCard();
+        int balanceStartSecondCard = DashboardPage.getCurrentBalanceSecondCard();
+        val balancePage = dashboardPage.transferFromSecondCard();
+        val dataCard = DataHelper.getFirstCardData();
         balancePage.balanceCard(dataCard);
-        int balanceCardAfterTransfer = DataHelper.balanceFirstCard(balanceStartSecondCard, amount);
-        int balanceCardAfterDebit = DataHelper.balanceSecondCard(balanceStartFirstCard, amount);
-        int balanceFinishFirstCard = TransferPage.getCurrentBalanceSecondCard();
-        int balanceFinishSecondCard = TransferPage.getCurrentBalanceFirstCard();
-        assertEquals(balanceCardAfterTransfer, balanceFinishFirstCard );
-        assertEquals(balanceCardAfterDebit, balanceFinishSecondCard );
+        int balanceCard1AfterTransfer = DataHelper.balanceSecondCard(balanceStartSecondCard, amountTransfer);
+        int balanceCard2AfterTransfer = DataHelper.balanceFirstCard(balanceStartFirstCard, amountTransfer);
+        int balanceFinishFirstCard = DashboardPage.getCurrentBalanceSecondCard();
+        int balanceFinishSecondCard = DashboardPage.getCurrentBalanceFirstCard();
+        assertEquals(balanceCard1AfterTransfer, balanceFinishFirstCard);
+        assertEquals(balanceCard2AfterTransfer, balanceFinishSecondCard);
     }
 }

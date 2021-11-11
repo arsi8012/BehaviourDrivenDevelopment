@@ -11,12 +11,11 @@ public class VerificationPage {
     private SelenideElement verifyButton = $("[data-test-id=action-verify]");
 
     public VerificationPage() {
-        codeField.shouldBe(visible);
-    }
+        codeField.shouldBe(visible);  }
 
-    public TransferPage validVerify(DataHelper.VerificationCode verificationCode) {
-        codeField.setValue(verificationCode.getCode());
+    public DashboardPage verify(DataHelper.VerificationCode verificafionCode){
+        codeField.setValue(verificafionCode.getCode());
         verifyButton.click();
-        return new TransferPage();
+        return new DashboardPage();
     }
 }
