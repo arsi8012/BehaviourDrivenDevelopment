@@ -11,8 +11,7 @@ public class BalancePage {
     private SelenideElement addButton = $("[data-test-id=action-transfer]");
 
     public void balanceCard(DataHelper.DataCard fromDataCard) {
-        String amountTransfer = "500";
-        amountField.setValue(amountTransfer);
+        amountField.setValue(fromDataCard.getAmountTransfer());
         whereFromField.setValue(fromDataCard.getNumberCard());
         addButton.click();
     }

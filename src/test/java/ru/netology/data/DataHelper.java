@@ -29,14 +29,15 @@ public class DataHelper {
     public static class DataCard {
         private String numberCard;
         private String balanceCard;
+        private String amountTransfer;
     }
 
     public static DataCard getFirstCardData() {
-        return new DataCard("5559000000000001", "10000");
+        return new DataCard("5559000000000001", "10000", "1000");
     }
 
     public static DataCard getSecondCardData() {
-        return new DataCard("5559000000000002", "10000");
+        return new DataCard("5559000000000002", "10000", "1000");
     }
 
 

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class MoneyTransferTest {
-    int amountTransfer = 500;
+    int amountTransfer = 1000;
 
     @BeforeEach
     void setUp() {
